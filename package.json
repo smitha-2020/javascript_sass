@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "sass": "^1.56.1"
+  },
+  "name": "fs13-javascript",
+  "description": "* Fork the repo and clone forked repo. Add .gitignore to exclude .git folder or any other unneccessary files.\r * Assignments are described in the index.js\r * No extra library should be installed to help with JavaScript assignment, apart from SASS if you want to write style accordingly.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "compile": "sass scss/main.scss css/style.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smitha-2020/fs13-JavaScript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smitha-2020/fs13-JavaScript/issues"
+  },
+  "homepage": "https://github.com/smitha-2020/fs13-JavaScript#readme"
+}

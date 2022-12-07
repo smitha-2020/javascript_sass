@@ -3,18 +3,18 @@
 from 0 to 100
  */
 
-// const printNum = () => {  
-//         let interval=setInterval(() => 
-//         {
-//             for (var i = 0; i <= 100; i++) 
-//             {
-//                 console.log("The number is " + i + "<br>");
-//             }
-//             clearInterval(interval);
+const printNum = () => {  
+        let interval=setInterval(() => 
+        {
+            for (var i = 0; i <= 100; i++) 
+            {
+                console.log("The number is " + i + "<br>");
+            }
+            clearInterval(interval);
             
-//         } , 1000)
-//     }
-// printNum()
+        } , 1000)
+    }
+printNum()
 
 /*
 2. Given the array below:
@@ -27,41 +27,41 @@ You only need to produce the same array as expected result, no need to consider 
 possibility.
  */
 
-// let myArr = ['12-24-2014', '09-2022-23', '12-30-2021', '08-02-2021', '07-15-2018', '2019-12-14', '2022-14-12']
+let myArr = ['12-24-2014', '09-2022-23', '12-30-2021', '08-02-2021', '07-15-2018', '2019-12-14', '2022-14-12']
 
-// const fixDate = (array) => {
-//    let newArr = [];
-//    for(var dateinArr in array){
-//         var [month,day,year] =myArr[dateinArr].split('-');
-//         newArr.push(day + "-" + month + "-" + year);
-//    }
-//    return newArr;
-// }
-// let newArr = fixDate(myArr)
-// console.log(newArr);
+const fixDate = (array) => {
+   let newArr = [];
+   for(var dateinArr in array){
+        var [month,day,year] =myArr[dateinArr].split('-');
+        newArr.push(day + "-" + month + "-" + year);
+   }
+   return newArr;
+}
+let newArr = fixDate(myArr)
+console.log(newArr);
 
 /*
 3. Counter function
 Write a counter funtion to print out in console the time difference between 2 given date
 Expected result in the console: 11 days - 13 hours - 38 minutes - 20 seconds
 */
-// const dateFrom = new Date(500000)
-// const dateTo = new Date(1000000000)
-// var day =(24*60*60);
-// var hour = (60*60);
-// var minute = 60;
-// const counter = (from, to) => {
-//     var tota_seconds = parseInt(Date.parse(to) - Date.parse(from))/1000;
-//     var total_minutes = parseInt(tota_seconds/60);
-//     var total_hours = parseInt(total_minutes/60);
-//     var days = parseInt(total_hours/24);
-//     var minutes = (total_minutes % 60);
-//     var seconds = (tota_seconds % 60);
-//     var timer = days + " days " + minutes + " minutes " + seconds + " seconds";
-//     return timer; 
-// }
-// const timer = counter(dateFrom,dateTo)
-// console.log(timer)
+const dateFrom = new Date(500000)
+const dateTo = new Date(1000000000)
+var day =(24*60*60);
+var hour = (60*60);
+var minute = 60;
+const counter = (from, to) => {
+    var tota_seconds = parseInt(Date.parse(to) - Date.parse(from))/1000;
+    var total_minutes = parseInt(tota_seconds/60);
+    var total_hours = parseInt(total_minutes/60);
+    var days = parseInt(total_hours/24);
+    var minutes = (total_minutes % 60);
+    var seconds = (tota_seconds % 60);
+    var timer = days + " days " + minutes + " minutes " + seconds + " seconds";
+    return timer; 
+}
+const timer = counter(dateFrom,dateTo)
+console.log(timer)
 
 /* 
 4. Check the url and read documentation: https://restcountries.com

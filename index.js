@@ -3,17 +3,11 @@
 from 0 to 100
  */
 
-const printNum = () => {  
-        let interval=setInterval(() => 
-        {
-            for (var i = 0; i <= 100; i++) 
-            {
-                console.log("The number is " + i + "<br>");
-            }
-            clearInterval(interval);
-            
-        } , 1000)
+const printNum = () => {
+    for (var i = 0; i <= 100; i++) {
+        setTimeout(console.log(i), 1000)
     }
+}
 printNum()
 
 /*
@@ -28,16 +22,19 @@ possibility.
  */
 
 let myArr = ['12-24-2014', '09-2022-23', '12-30-2021', '08-02-2021', '07-15-2018', '2019-12-14', '2022-14-12']
-
 const fixDate = (array) => {
-   let newArr = [];
-   for(var dateinArr in array){
-        var [month,day,year] =myArr[dateinArr].split('-');
-        newArr.push(day + "-" + month + "-" + year);
-   }
-   return newArr;
-}
-let newArr = fixDate(myArr)
+  let finalArray = [];
+
+  for (var i = 0; i < array.length; i++) {
+    const dateArr = array[i].split("-");
+    dateArr.sort(function (a, b) {
+      return a - b;
+    });
+    finalArray.push(`${dateArr[1]}-${dateArr[0]}-${dateArr[2]}`);
+  }
+  return finalArray;
+};
+let newArr = fixDate(myArr);
 console.log(newArr);
 
 /*
@@ -55,9 +52,10 @@ const counter = (from, to) => {
     var total_minutes = parseInt(tota_seconds/60);
     var total_hours = parseInt(total_minutes/60);
     var days = parseInt(total_hours/24);
+    var hours =(total_hours - (days*24));
     var minutes = (total_minutes % 60);
     var seconds = (tota_seconds % 60);
-    var timer = days + " days " + minutes + " minutes " + seconds + " seconds";
+    var timer = `${days} days - ${hours} hours - ${minutes} - minutes ${seconds} - seconds`;
     return timer; 
 }
 const timer = counter(dateFrom,dateTo)
@@ -69,42 +67,72 @@ console.log(timer)
 - Write a function to find one country based on the search input
 The data fetched from url should be displayed in index.html.
 */
-function hi(){
-    alert("hi");
-}
-function expand_collapse(){
-    var y = document.getElementById("countries-id");
-    // x.addEventListener('click', ()=>{
-        if (y.style.display === 'none'){
-            document.getElementById('countries-id').style.display = 'block';
-            
-        }
-        else{
-            document.getElementById('countries-id').style.display = 'none';
-        }
-   
-}
-
-var countries = "";
 const sortCountries = (data) =>{
     for(var i=0;i< data.length; i++){
-        countries = countries + "\n" + data[i].name.common;
-        // countries.push();
-        //document.getElementById('countries-id').innerText;
-    }
-    document.getElementById('countries-id').innerText = countries;
+        let mainDiv = document.createElement('div');
+        mainDiv.id = 'card-country';
+        mainDiv.class='card-country';
+        let span1 = document.createElement('span');
+        span1.appendChild(document.createTextNode(data[i].name.common));
+        let span2 = document.createElement('span');
+        span2.appendChild(document.createTextNode(data[i].capital));
+        var img = document.createElement('img');
+        img.src = data[i].flags['png'];
+        img.id="imgg"
+        mainDiv.appendChild(span1);
+        mainDiv.appendChild(span2);
+        mainDiv.appendChild(img);
+        document.getElementById("countries").append(mainDiv);
+    }  
 }
 const getAllCountries = async() => {
-    /* provide your code here */
     await fetch('https://restcountries.com/v3.1/all')
     .then(res => res.json())
-    .then(data => {sortCountries(data);});
+    .then(data => {  
+        data.sort((a,b) => (a.name.common > b.name.common) ? 1 : ((b.name.common > a.name.common) ? -1 : 0))
+        setTimeout(()=>{
+            sortCountries(data);
+        },1000);});
 }
-const getSingleCountry = () => {
-    /* provide your code here */
+const getSingleCountry = async() => {
+        let country = document.getElementById('country').value;
+        const res1 = await fetch('https://restcountries.com/v3.1/name/'+country+'?fullText=true');
+        const data1 = await res1.json();
+        document.getElementById('country').value = "";
+        try{
+            document.getElementById("country-details").innerText = "";
+            getData(data1);
+        }catch(error){
+            document.getElementById("country-details").innerText = "No Entry Found"
+        }
+    }
+   
+function getData(d){
+    let mainDiv1 = document.createElement('div');
+        mainDiv1.id = 'card-countryone';
+        mainDiv1.class='card-countryone';
+        let span1one = document.createElement('span');
+        span1one.appendChild(document.createTextNode(d[0].name.common));
+        let span2one = document.createElement('span');
+        span2one.appendChild(document.createTextNode(d[0].capital));
+        let span3one = document.createElement('span');
+        span3one.appendChild(document.createTextNode(d[0].population));
+        let span4one = document.createElement('span');
+        span4one.appendChild(document.createTextNode(d[0].continents));
+        var imgone = document.createElement('img');
+        imgone.src = d[0].flags['png'];
+        imgone.id = "img-country"
+        mainDiv1.appendChild(span1one);
+        mainDiv1.appendChild(span2one);
+        mainDiv1.appendChild(span3one);
+        mainDiv1.appendChild(span4one);
+        mainDiv1.appendChild(imgone);
+        document.getElementById("country-details").append(mainDiv1);  
 }
 
-getAllCountries()
+(function () {
+    getAllCountries();
+})();
 
 /*
 5. Provide logic for function generateNewFolderName, which receive an array as argument. Everytime the function gets called,
@@ -113,16 +141,32 @@ If folder 'New Folder' exists, it should add 'New Folder (1)' to array. If 'New 
 to array, and so on.
 */
 
-// const generateNewFolderName = (existingFolders) => {
-//     /*  provide your code here */
-// }
+const generateNewFolderName = (existingFolders) => {
+    const result = folder.filter((folderName)=> existingFolders===folderName );
+    const existingFile = [...folder.filter((file)=> file.includes(`${existingFolders}(`))];
+    if(result.length == 0){
+        folder = [...folder,existingFolders];
+    }
+    else{
+        for(let i=(existingFile.length+1);i<= folder.length;i++){
+            if(!folder.includes(`${existingFolders}(${i})`)){
+                folder = [...folder,`${existingFolders}(${i})`];
+                break;
+            }
+        }
+}
+}
+let folder = [];
+generateNewFolderName('New Folder')
+generateNewFolderName('New Folder')
+generateNewFolderName('New Folder')
+generateNewFolderName('New Folder')
+generateNewFolderName('Javascript')
+generateNewFolderName('Javascript')
+console.log(folder); 
 
-// let folder = []
-// generateNewFolderName(folder)
-// generateNewFolderName(folder)
-// generateNewFolderName(folder)
-// generateNewFolderName(folder)
-// console.log(folder); //expect to see ['New Folder', 'New Folder (1)', 'New Folder (2)', 'New Folder (3)']
+//expected output to see ['New Folder', 'New Folder (1)', 'New Folder (2)', 'New Folder (3)']
+// Result['New Folder', 'New Folder(1)', 'New Folder(2)', 'New Folder(3)', 'Javascript', 'Javascript(1)'] 
 
 /* 
 6. Complete class Book:
@@ -137,15 +181,23 @@ Complete class TaxableBook:
 - give the logic to calculate price with taxRate. For example: 
 cost 14, profit 0.3 , tax 24% => expected price is 30.43
 */
-// class Book {
-//     _title
-//     constructor(title, cost, profit) {
-//     }
-// }
+class Book {
+    constructor(title, cost, profit) {
+        this.title = title;
+        this.cost = cost;
+        this.profit = profit;
+    }
 
-// class TaxableBook {
-//     /* provide your code here */
-// }
+}
 
-// const book1 = new Book("The Power of Habits", 14, 0.3)
-// const book2 = new TaxableBook("The Power of Habits", 14, 0.3, 24)
+class TaxableBook {
+    constructor(title, cost,tax, profit) {
+        this.title = title;
+        this.cost = cost;
+        this.tax = tax;
+        this.profit = profit;
+    }
+}
+
+const book1 = new Book("The Power of Habits", 14, 0.3)
+const book2 = new TaxableBook("The Power of Habits", 14, 0.3, 24)

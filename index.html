@@ -14,20 +14,23 @@
         * no extra library, only vanilla CSS or SASS. Be creative in your own layout
      -->
     <main>
-        <section class="countries-section" id="countries-section">
-            <button class="expand-countries" type="button" id="expand-countries" onclick="expand_collapse()">click Me to see the countries</button>
-               
-            <div class="countries" id="countries-id">
-            </div>
-        </section>
-        <!-- <section class="countries-section">
-            <button class="expand-countries" type="button" id="expand-countries" onclick="expand_collapse()">click Me to see the countries</button>
-               
-            <div class="countries" id="countries-id">
-            </div>
-        </section> -->
-
-        
+        <span id="loading">Loading...</span>
+        <section>
+            <form class="form-country">
+                <span>select country</span><input type="text" name="country" id="country"/>
+                <button id="btn"  type="button" onclick="getSingleCountry()">search</button>
+            </form>
+       </section>
+       <section class="country-details" id="country-details">
+       </section>
+       <section class="countries" id="countries">
+        <!-- <div class="card-country" id="card-country">
+            <span>name</span>
+            <span>Capital</span>
+            <span>flag</span>
+        </div> -->
+       </section>
+     
     </main>
     <script src="index.js"></script>
 </body>

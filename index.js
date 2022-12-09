@@ -96,7 +96,9 @@ const getAllCountries = async() => {
 }
 const getSingleCountry = async() => {
         let country = document.getElementById('country').value;
-        const res1 = await fetch('https://restcountries.com/v3.1/name/'+country+'?fullText=true');
+        
+        const res1 = await fetch('https://restcountries.com/v3.1/name/'+country);
+        //const res1 = await fetch('https://restcountries.com/v3.1/name/'+country+'?fullText=true');
         const data1 = await res1.json();
         document.getElementById('country').value = "";
         try{
@@ -180,24 +182,110 @@ Complete class TaxableBook:
 - inherit Book, but have 1 more private parameter in the constructor: taxRate. 
 - give the logic to calculate price with taxRate. For example: 
 cost 14, profit 0.3 , tax 24% => expected price is 30.43
+
+ if(title.length > 0 || cost > 0 || ((profit>0) && (profit<=0.5))){
 */
 class Book {
+    // title;
+    // cost;
+    // profit;
+    
     constructor(title, cost, profit) {
-        this.title = title;
-        this.cost = cost;
-        this.profit = profit;
+            this.title = title;
+            this.cost = cost;
+            this.profit = profit;
     }
-
+    get title(){
+        return this._title;
+    }
+    set title(newTitle){
+        if((newTitle.trim() === '')){
+            throw 'Title should be a string and cannot be empty';
+        }
+        this._title = newTitle;
+    }
+    set cost(newCost){
+        if(!(newCost>0)){
+            throw 'cost should be a positive number';
+        }
+        this._cost=newCost;
+    }
+    get cost(){
+        return this._cost;
+    }
+    set profit(newProfit){
+        if(!(newProfit>0 && newProfit<=0.5)){
+            throw 'Profit should be an positive number > 0 and =< 0.5)';
+        }
+        this._profit=newProfit;
+    }
+    get profit(){
+        return this._profit;
+    }
+    //Logic to Increment or Decrement the price with certain value
+    IncorDec(op,newVal) {
+        switch(op) {
+            case '+':
+               this.cost+= newVal;
+              break;
+            case '-':
+                this.cost-= newVal;
+              break;
+            default:
+                this.cost
+          }
+    }
+    calculatePrice(){
+        let calcPrice = (this.cost/(1-this.profit))
+        return calcPrice;
+    }
 }
 
-class TaxableBook {
-    constructor(title, cost,tax, profit) {
-        this.title = title;
-        this.cost = cost;
-        this.tax = tax;
-        this.profit = profit;
+class TaxableBook extends Book {
+    constructor(title, cost, profit, taxRate) {
+         super(title, cost, profit);
+         this.taxRate = taxRate;
+    }
+    get taxRate(){
+        this._taxRate;
+
+    }
+    set taxRate(newtaxRate){
+        this._taxRate =newtaxRate;
+    }
+    getPrice(){
+        console.log('fnsdf');
     }
 }
-
 const book1 = new Book("The Power of Habits", 14, 0.3)
+console.log(` book's price ${book1.cost}`)
+console.log(` Profit's for book ${book1.profit}`)
+//Increment or Decrement the price with certain value
+//console.log(book1.IncorDec('+',1.6))
+console.log(` book's Incremented price is ${book1.cost}`)
+console.log(book1.calculatePrice())
+
 const book2 = new TaxableBook("The Power of Habits", 14, 0.3, 24)
+console.log(` book's price ${book2.cost}`)
+console.log(` Profit's for book ${book2.profit}`)
+
+
+// class Person {
+//     constructor(name) {
+//         this.name = name;
+//     }
+//     get name() {
+//         return this._name;
+//     }
+//     set name(newName) {
+//         newName = newName.trim();
+//         if (newName === '') {
+//             throw 'The name cannot be empty';
+//         }
+//         this._name = newName;
+//     }
+// }
+
+// let person = new Person('smitha');
+// person.name = "Prashant";
+// console.log(person.name)

@@ -4,7 +4,7 @@ from 0 to 100
  */
 
 const printNum = () => {
-    for (var i = 0; i <= 100; i++) {
+    for (let i = 0; i <= 100; i++) {
         setTimeout(console.log(i), 1000)
     }
 }
@@ -25,7 +25,7 @@ let myArr = ['12-24-2014', '09-2022-23', '12-30-2021', '08-02-2021', '07-15-2018
 const fixDate = (array) => {
   let finalArray = [];
 
-  for (var i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     const dateArr = array[i].split("-");
     dateArr.sort(function (a, b) {
       return a - b;
@@ -44,18 +44,18 @@ Expected result in the console: 11 days - 13 hours - 38 minutes - 20 seconds
 */
 const dateFrom = new Date(500000)
 const dateTo = new Date(1000000000)
-var day =(24*60*60);
-var hour = (60*60);
-var minute = 60;
+let day =(24*60*60);
+let hour = (60*60);
+let minute = 60;
 const counter = (from, to) => {
-    var tota_seconds = parseInt(Date.parse(to) - Date.parse(from))/1000;
-    var total_minutes = parseInt(tota_seconds/60);
-    var total_hours = parseInt(total_minutes/60);
-    var days = parseInt(total_hours/24);
-    var hours =(total_hours - (days*24));
-    var minutes = (total_minutes % 60);
-    var seconds = (tota_seconds % 60);
-    var timer = `${days} days - ${hours} hours - ${minutes} - minutes ${seconds} - seconds`;
+    let tota_seconds = parseInt(Date.parse(to) - Date.parse(from))/1000;
+    let total_minutes = parseInt(tota_seconds/60);
+    let total_hours = parseInt(total_minutes/60);
+    let days = parseInt(total_hours/24);
+    let hours =(total_hours - (days*24));
+    let minutes = (total_minutes % 60);
+    let seconds = (tota_seconds % 60);
+    let timer = `${days} days - ${hours} hours - ${minutes} - minutes ${seconds} - seconds`;
     return timer; 
 }
 const timer = counter(dateFrom,dateTo)
@@ -68,7 +68,7 @@ console.log(timer)
 The data fetched from url should be displayed in index.html.
 */
 const sortCountries = (data) =>{
-    for(var i=0;i< data.length; i++){
+    for(let i=0;i< data.length; i++){
         let mainDiv = document.createElement('div');
         mainDiv.id = 'card-country';
         mainDiv.class='card-country';
@@ -76,7 +76,7 @@ const sortCountries = (data) =>{
         span1.appendChild(document.createTextNode(data[i].name.common));
         let span2 = document.createElement('span');
         span2.appendChild(document.createTextNode(data[i].capital));
-        var img = document.createElement('img');
+        let img = document.createElement('img');
         img.src = data[i].flags['png'];
         img.id="imgg"
         mainDiv.appendChild(span1);
@@ -96,9 +96,7 @@ const getAllCountries = async() => {
 }
 const getSingleCountry = async() => {
         let country = document.getElementById('country').value;
-        
         const res1 = await fetch('https://restcountries.com/v3.1/name/'+country);
-        //const res1 = await fetch('https://restcountries.com/v3.1/name/'+country+'?fullText=true');
         const data1 = await res1.json();
         document.getElementById('country').value = "";
         try{
@@ -121,7 +119,7 @@ function getData(d){
         span3one.appendChild(document.createTextNode(d[0].population));
         let span4one = document.createElement('span');
         span4one.appendChild(document.createTextNode(d[0].continents));
-        var imgone = document.createElement('img');
+        let imgone = document.createElement('img');
         imgone.src = d[0].flags['png'];
         imgone.id = "img-country"
         mainDiv1.appendChild(span1one);
@@ -145,7 +143,7 @@ to array, and so on.
 
 const generateNewFolderName = (existingFolders) => {
     const result = folder.filter((folderName)=> existingFolders===folderName );
-    const existingFile = [...folder.filter((file)=> file.includes(`${existingFolders}(`))];
+    const existingFile = folder.filter((file)=> file.includes(`${existingFolders}(`));
     if(result.length == 0){
         folder = [...folder,existingFolders];
     }
@@ -165,6 +163,7 @@ generateNewFolderName('New Folder')
 generateNewFolderName('New Folder')
 generateNewFolderName('Javascript')
 generateNewFolderName('Javascript')
+generateNewFolderName('New Folder')
 console.log(folder); 
 
 //expected output to see ['New Folder', 'New Folder (1)', 'New Folder (2)', 'New Folder (3)']
@@ -183,57 +182,59 @@ Complete class TaxableBook:
 - give the logic to calculate price with taxRate. For example: 
 cost 14, profit 0.3 , tax 24% => expected price is 30.43
 
- if(title.length > 0 || cost > 0 || ((profit>0) && (profit<=0.5))){
 */
 class Book {
-    // title;
-    // cost;
-    // profit;
+    #cost; //private property
+    #profit;//private property
     
     constructor(title, cost, profit) {
-            this.title = title;
-            this.cost = cost;
-            this.profit = profit;
+        if((title.trim() === '')){
+            throw 'Title should be a string and cannot be empty';
+            
+        }else{
+            this._title = title;
+        }
+        this.cost = cost;
+        this.profit = profit;    
     }
     get title(){
         return this._title;
     }
-    set title(newTitle){
-        if((newTitle.trim() === '')){
-            throw 'Title should be a string and cannot be empty';
-        }
-        this._title = newTitle;
-    }
-    set cost(newCost){
+    //private method
+    #costcheck(newCost){
         if(!(newCost>0)){
             throw 'cost should be a positive number';
         }
-        this._cost=newCost;
+        return newCost;
+    }
+    set cost(newCost){
+        this.#cost  = this.#costcheck(newCost);
     }
     get cost(){
-        return this._cost;
+        return this.#cost;
     }
     set profit(newProfit){
         if(!(newProfit>0 && newProfit<=0.5)){
             throw 'Profit should be an positive number > 0 and =< 0.5)';
         }
-        this._profit=newProfit;
+        this.#profit=newProfit;
     }
     get profit(){
-        return this._profit;
+        return this.#profit;
     }
     //Logic to Increment or Decrement the price with certain value
     IncorDec(op,newVal) {
         switch(op) {
             case '+':
-               this.cost+= newVal;
+               this.#cost+= newVal;
               break;
             case '-':
-                this.cost-= newVal;
+                this.#cost-= newVal;
               break;
             default:
-                this.cost
+                this.#cost
           }
+          return this.#cost;
     }
     calculatePrice(){
         let calcPrice = (this.cost/(1-this.profit))
@@ -242,50 +243,31 @@ class Book {
 }
 
 class TaxableBook extends Book {
+    #taxRate;
     constructor(title, cost, profit, taxRate) {
          super(title, cost, profit);
-         this.taxRate = taxRate;
+         this.#taxRate = taxRate;
     }
     get taxRate(){
-        this._taxRate;
+        return this.#taxRate;
 
     }
     set taxRate(newtaxRate){
-        this._taxRate =newtaxRate;
+        this.#taxRate =newtaxRate;
     }
     getPrice(){
         console.log('fnsdf');
     }
 }
 const book1 = new Book("The Power of Habits", 14, 0.3)
-console.log(` book's price ${book1.cost}`)
+
+console.log(` cost for book ${book1.cost}`)
 console.log(` Profit's for book ${book1.profit}`)
 //Increment or Decrement the price with certain value
-//console.log(book1.IncorDec('+',1.6))
+//console.log(` Incremented or Decremented price of book ${book1.IncorDec('+',1.6)}`)
 console.log(` book's Incremented price is ${book1.cost}`)
 console.log(book1.calculatePrice())
 
 const book2 = new TaxableBook("The Power of Habits", 14, 0.3, 24)
 console.log(` book's price ${book2.cost}`)
-console.log(` Profit's for book ${book2.profit}`)
-
-
-// class Person {
-//     constructor(name) {
-//         this.name = name;
-//     }
-//     get name() {
-//         return this._name;
-//     }
-//     set name(newName) {
-//         newName = newName.trim();
-//         if (newName === '') {
-//             throw 'The name cannot be empty';
-//         }
-//         this._name = newName;
-//     }
-// }
-
-// let person = new Person('smitha');
-// person.name = "Prashant";
-// console.log(person.name)
+console.log(` TaxRate for book ${book2.taxRate}`)

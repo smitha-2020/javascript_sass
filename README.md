@@ -87,4 +87,6 @@ Go to parent repo and make a pull request.
  ✨Magic ✨
 Task5 is deployed and can be checked [here](https://scintillating-capybara-6ed0a2.netlify.app/) 
 
-![alt text]()
+![alt text](https://github.com/smitha-2020/javascript_sass/blob/main/snapshot.jpg)
+
+![alt text](https://github.com/smitha-2020/javascript_sass/blob/main/snapshot.png)

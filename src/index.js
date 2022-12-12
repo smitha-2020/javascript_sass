@@ -24,14 +24,13 @@ possibility.
 let myArr = ['12-24-2014', '09-2022-23', '12-30-2021', '08-02-2021', '07-15-2018', '2019-12-14', '2022-14-12']
 const fixDate = (array) => {
   let finalArray = [];
-
-  for (let i = 0; i < array.length; i++) {
-    const dateArr = array[i].split("-");
+  array.map((dateElement) =>{
+    const dateArr = dateElement.split("-");
     dateArr.sort(function (a, b) {
-      return a - b;
-    });
-    finalArray.push(`${dateArr[1]}-${dateArr[0]}-${dateArr[2]}`);
-  }
+        return a - b;
+      });
+      finalArray.push(`${dateArr[1]}-${dateArr[0]}-${dateArr[2]}`);
+  })
   return finalArray;
 };
 let newArr = fixDate(myArr);

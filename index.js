@@ -213,11 +213,13 @@ class Book {
     get cost(){
         return this.#cost;
     }
-    set profit(newProfit){
+    #profitcheck(newProfit){
         if(!(newProfit>0 && newProfit<=0.5)){
             throw 'Profit should be an positive number > 0 and =< 0.5)';
         }
-        this.#profit=newProfit;
+    }
+    set profit(newProfit){
+        this.#profit=this.#profitcheck(newProfit);
     }
     get profit(){
         return this.#profit;
@@ -274,9 +276,7 @@ console.log(`book's Incremented price is ${book1.cost}`)
 console.log(`calculate the price ${book1.calculatePrice()}`)
 
 const book2 = new TaxableBook("The Power of Habits", 14, 0.3, 24)
-console.log(`book's price ${book2.cost}`)
-console.log(`TaxRate for book ${book2.taxRate}`)
 //logic to calculate price with taxRate
-console.log(Math.abs(book2.getPrice()).toFixed(2))
+console.log(`calculated price with taxRate ${Math.abs(book2.getPrice()).toFixed(2)}`)
 
 

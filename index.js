@@ -192,10 +192,10 @@ class Book {
             throw 'Title should be a string and cannot be empty';
             
         }else{
-            this._title = title;
+            this._title = title; // protected property
         }
-        this.cost = cost;
-        this.profit = profit;    
+        this.#cost = cost;
+        this.#profit = profit;    
     }
     get title(){
         return this._title;
@@ -250,24 +250,33 @@ class TaxableBook extends Book {
     }
     get taxRate(){
         return this.#taxRate;
-
     }
     set taxRate(newtaxRate){
-        this.#taxRate =newtaxRate;
+        this.#taxRate = newtaxRate;
     }
     getPrice(){
-        console.log('fnsdf');
+        return (this.cost/((1-this.profit)-(this.taxRate/100)))
     }
 }
 const book1 = new Book("The Power of Habits", 14, 0.3)
+//used with protected properties
+Object.defineProperty(book1, "_title", {
+    value: "The Power of Habits",
+    writable: false
+});
 
-console.log(` cost for book ${book1.cost}`)
-console.log(` Profit's for book ${book1.profit}`)
-//Increment or Decrement the price with certain value
+console.log(`cost of book ${book1.cost}`)
+console.log(`Profit for book ${book1.profit}`)
+//Logic Increment or Decrement the price with certain value
 //console.log(` Incremented or Decremented price of book ${book1.IncorDec('+',1.6)}`)
-console.log(` book's Incremented price is ${book1.cost}`)
-console.log(book1.calculatePrice())
+console.log(`book's Incremented price is ${book1.cost}`)
+//Logic to calculate the price
+console.log(`calculate the price ${book1.calculatePrice()}`)
 
 const book2 = new TaxableBook("The Power of Habits", 14, 0.3, 24)
-console.log(` book's price ${book2.cost}`)
-console.log(` TaxRate for book ${book2.taxRate}`)
+console.log(`book's price ${book2.cost}`)
+console.log(`TaxRate for book ${book2.taxRate}`)
+//logic to calculate price with taxRate
+console.log(Math.abs(book2.getPrice()).toFixed(2))
+
+

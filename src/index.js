@@ -89,9 +89,7 @@ const getAllCountries = async() => {
     .then(res => res.json())
     .then(data => {  
         data.sort((a,b) => (a.name.common > b.name.common) ? 1 : ((b.name.common > a.name.common) ? -1 : 0))
-        setTimeout(()=>{
-            sortCountries(data);
-        },1000);});
+            sortCountries(data);});
 }
 const getSingleCountry = async() => {
         let country = document.getElementById('country').value;
@@ -139,31 +137,31 @@ it should check for folder name. If the folder named 'New Folder' does not exist
 If folder 'New Folder' exists, it should add 'New Folder (1)' to array. If 'New Folder (1)' exists, it should add 'New Folder (2)'
 to array, and so on.
 */
-
 const generateNewFolderName = (existingFolders) => {
-    const result = folder.filter((folderName)=> existingFolders===folderName );
-    const existingFile = folder.filter((file)=> file.includes(`${existingFolders}(`));
-    if(result.length == 0){
-        folder = [...folder,existingFolders];
-    }
-    else{
-        for(let i=(existingFile.length+1);i<= folder.length;i++){
-            if(!folder.includes(`${existingFolders}(${i})`)){
-                folder = [...folder,`${existingFolders}(${i})`];
+    const FileName = 'New Folder';
+    const result = existingFolders.filter((folderName)=> folderName === FileName );
+    if(!result.length){
+       existingFolders.push(FileName);
+    }else{
+        for(let i=1;i<= folder.length;i++){
+            if(!existingFolders.includes(`${FileName}(${i})`)){
+                existingFolders.push(`${FileName}(${i})`)
                 break;
             }
         }
+    }
 }
-}
+
 let folder = [];
-generateNewFolderName('New Folder')
-generateNewFolderName('New Folder')
-generateNewFolderName('New Folder')
-generateNewFolderName('New Folder')
-generateNewFolderName('Javascript')
-generateNewFolderName('Javascript')
-generateNewFolderName('New Folder')
-console.log(folder); 
+generateNewFolderName(folder);
+generateNewFolderName(folder);
+generateNewFolderName(folder);
+generateNewFolderName(folder);
+generateNewFolderName(folder);
+generateNewFolderName(folder);
+console.log(folder)
+
+
 
 //expected output to see ['New Folder', 'New Folder (1)', 'New Folder (2)', 'New Folder (3)']
 // Result['New Folder', 'New Folder(1)', 'New Folder(2)', 'New Folder(3)', 'Javascript', 'Javascript(1)'] 
